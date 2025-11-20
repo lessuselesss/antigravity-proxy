@@ -314,6 +314,20 @@ This tool is for educational and personal use only. Ensure you comply with:
 
 The authors are not responsible for any misuse or violations.
 
+## 📦 Alternative Implementations
+
+### Node.js Experimental Branch
+
+An educational Node.js implementation is available in the `nodejs-experimental` branch:
+
+```bash
+git checkout nodejs-experimental
+```
+
+**Note:** The Node.js version demonstrates proxy concepts but cannot inspect HTTPS content due to encryption limitations. Use the master branch (mitmproxy) for actual functionality.
+
+See [nodejs-experimental branch](../../tree/nodejs-experimental) for details.
+
 ## 🙏 Acknowledgments
 
 - [mitmproxy](https://mitmproxy.org/) - The excellent MITM proxy framework
@@ -324,11 +338,26 @@ The authors are not responsible for any misuse or violations.
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/antigravity-proxy/issues)
 - **Documentation**: See [docs/](./docs/) directory
-- **Security**: See [SECURITY.md](./docs/SECURITY.md)
+- **Security**: See [docs/SECURITY.md](./docs/SECURITY.md)
 
-## 🌟 Star History
+## 🌟 Star This Project
 
 If you find this project useful, please consider giving it a star ⭐
+
+## 🗂️ Repository Structure
+
+```
+master (default)
+├── mitmproxy-addon.py          # Working proxy solution
+├── docs/                       # Documentation
+├── scripts/                    # Helper scripts
+└── README.md                   # This file
+
+nodejs-experimental
+├── src/                        # Node.js implementation (educational)
+├── package.json               # Node.js dependencies
+└── README_NODEJS.md           # Branch-specific docs
+```
 
 ---
 
