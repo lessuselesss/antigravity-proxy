@@ -11,9 +11,15 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      packages.${system}.default = pkgs.writeScriptBin "antigravity-proxy" ''
+      packages.${system}.default = let
+        pythonEnv = pkgs.python3.withPackages (ps: [
+          ps.mitmproxy
+          ps.python-dotenv
+        ]);
+      in
+      pkgs.writeScriptBin "antigravity-proxy" ''
         #!${pkgs.bash}/bin/bash
-        ${pkgs.python3Packages.mitmproxy}/bin/mitmproxy -s ${./mitmproxy-addon.py} --set block_global=false
+        ${pythonEnv}/bin/mitmproxy -s ${./mitmproxy-addon.py} --set block_global=false
       '';
 
       apps.${system}.default = {
