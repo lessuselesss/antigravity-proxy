@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Launch Antigravity with proxy settings
 
@@ -22,15 +22,17 @@ else
     exit 1
 fi
 
-# Use configured path or default
-ANTIGRAVITY_PATH=${ANTIGRAVITY_PATH:-"/Applications/Antigravity.app/Contents/MacOS/Antigravity"}
+# Check if ANTIGRAVITY_PATH is set
+if [ -z "$ANTIGRAVITY_PATH" ]; then
+    echo -e "${RED}❌ ANTIGRAVITY_PATH is not set!${NC}"
+    echo -e "${YELLOW}💡 Please set ANTIGRAVITY_PATH in your .env file to the location of the Antigravity application.${NC}"
+    exit 1
+fi
 
-# Check if Antigravity exists
+# Check if Antigravity exists at the specified path
 if [ ! -f "$ANTIGRAVITY_PATH" ]; then
     echo -e "${RED}❌ Antigravity not found at: ${ANTIGRAVITY_PATH}${NC}"
-    echo -e "${YELLOW}💡 Options:${NC}"
-    echo -e "   1. Install Antigravity"
-    echo -e "   2. Set ANTIGRAVITY_PATH in .env to correct location"
+    echo -e "${YELLOW}💡 Make sure the path in your .env file is correct.${NC}"
     exit 1
 fi
 
@@ -40,16 +42,11 @@ PROXY_URL="http://localhost:${PROXY_PORT}"
 
 echo -e "${GREEN}✓ Found Antigravity at: ${ANTIGRAVITY_PATH}${NC}"
 echo -e "${GREEN}✓ Using proxy: ${PROXY_URL}${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo ""
-echo -e "${YELLOW}⚠️  Make sure the proxy server is running in another terminal:${NC}"
-echo -e "   ${GREEN}npm start${NC}"
-echo ""
 echo -e "${BLUE}Starting Antigravity...${NC}"
 echo ""
 
 # Launch Antigravity with proxy environment variables
 HTTP_PROXY="$PROXY_URL" \
 HTTPS_PROXY="$PROXY_URL" \
-NODE_TLS_REJECT_UNAUTHORIZED=0 \
+SSL_CERT_FILE="$(pwd)/certs/mitmproxy-ca-cert.pem" \
 "$ANTIGRAVITY_PATH" "$@"

@@ -27,5 +27,17 @@
         program = "${self.packages.${system}.default}/bin/antigravity-proxy";
       };
 
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = [
+          (let
+            pythonEnv = pkgs.python3.withPackages (ps: [
+              ps.mitmproxy
+              ps.python-dotenv
+              ps.pip
+            ]);
+          in
+          pythonEnv)
+        ];
+      };
     };
 }
